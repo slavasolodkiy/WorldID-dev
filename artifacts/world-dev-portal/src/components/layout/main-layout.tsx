@@ -14,6 +14,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     { name: "Docs", href: "/docs" },
     { name: "SDKs", href: "/sdks" },
     { name: "Changelog", href: "/changelog" },
+    { name: "Capabilities", href: "/capabilities" },
     { name: "Status", href: "/status" },
     { name: "Contact", href: "/contact" },
   ];
@@ -108,9 +109,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </div>
             <span className="font-semibold text-sm">Tools for Humanity</span>
           </div>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+          <div className="flex gap-6 text-sm text-muted-foreground flex-wrap justify-center md:justify-end">
+            <Link href="/capabilities" className="hover:text-foreground transition-colors">Capabilities</Link>
+            <Link href="/sources" className="hover:text-foreground transition-colors">Sources</Link>
+            <a href="https://github.com/worldcoin" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
             <a href="https://twitter.com/worldcoin" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">Twitter</a>
           </div>
         </div>

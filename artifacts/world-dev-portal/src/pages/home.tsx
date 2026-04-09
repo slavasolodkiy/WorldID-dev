@@ -1,14 +1,19 @@
 import React from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Copy, ExternalLink, Terminal, Zap, Shield, Globe, Box, Code2, BookOpen } from "lucide-react";
+import { ArrowRight, CheckCircle, Copy, ExternalLink, Terminal, Zap, Shield, Globe, Box, Code2, BookOpen, Info, BarChart2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useGetEcosystemStats, useGetApiStatus, useGetSdks } from "@workspace/api-client-react";
 
 const quickstartCode = `import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 
+// ILLUSTRATIVE EXAMPLE — replace /api/verify with your server endpoint
+// Your server must call: POST developer.worldcoin.org/api/v1/verify/{app_id}
+// See: docs.world.org/world-id/reference/api
+
 function App() {
   const handleVerify = async (proof) => {
+    // Send proof to YOUR server — your server verifies with World ID API
     const res = await fetch("/api/verify", {
       method: "POST",
       body: JSON.stringify(proof)
@@ -19,7 +24,7 @@ function App() {
   return (
     <IDKitWidget
       app_id="app_your_app_id"
-      action="vote_1"
+      action="your_action_name"
       verification_level={VerificationLevel.Orb}
       handleVerify={handleVerify}
       onSuccess={() => console.log("Verified!")}
@@ -129,10 +134,19 @@ const entryPoints = [
   {
     icon: Code2,
     title: "API Reference",
-    description: "Complete REST API reference with schemas, examples, and error codes.",
+    description: "Portal API reference. The canonical verification API lives at developer.worldcoin.org/api/v1.",
     href: "/docs/api",
     label: "API reference",
-    badge: "Stable",
+    badge: "Portal API",
+    badgeVariant: "outline" as const,
+  },
+  {
+    icon: BarChart2,
+    title: "Capability Matrix",
+    description: "See exactly what's implemented, in beta, planned, or not yet exposed — with no guessing.",
+    href: "/capabilities",
+    label: "View capabilities",
+    badge: "Reference",
     badgeVariant: "secondary" as const,
   },
 ];
@@ -187,7 +201,7 @@ export default function Home() {
             <div className="flex items-center gap-2 mb-6">
               <div className={`w-2 h-2 rounded-full ${allOperational ? "bg-green-500" : "bg-amber-500"} animate-pulse`} />
               <span className="text-xs text-muted-foreground font-mono">
-                {allOperational ? "All systems operational" : "Some degradation detected"}
+                {allOperational ? "Portal services operational" : "Some portal services degraded"}
               </span>
               <Link href="/status" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">
                 View status
@@ -238,7 +252,14 @@ export default function Home() {
             <CodeBlock code={quickstartCode} />
             <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
               <CheckCircle className="w-4 h-4 text-green-500" />
-              Proof verified server-side — no client-side trust required
+              Proof verified on your server via the World ID API — no client-side trust required
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground/60">
+              <Info className="w-3.5 h-3.5 flex-shrink-0" />
+              Illustrative example. Your <code className="font-mono">/api/verify</code> must call{" "}
+              <a href="https://developer.worldcoin.org/api/v1" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-muted-foreground">
+                developer.worldcoin.org/api/v1/verify
+              </a>
             </div>
           </div>
 
@@ -260,9 +281,20 @@ export default function Home() {
                 ))
               )}
             </div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/50">
+              <Info className="w-3 h-3 flex-shrink-0" />
+              Representative figures sourced from{" "}
+              <a href="https://worldcoin.org" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-muted-foreground">
+                worldcoin.org
+              </a>
+              . Not live telemetry.
+            </div>
 
             <div className="border border-border/40 rounded-lg p-4 bg-card/50">
-              <div className="text-xs font-mono text-muted-foreground mb-3">WEEKLY DOWNLOADS</div>
+              <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground mb-3">
+                WEEKLY DOWNLOADS
+                <span className="text-muted-foreground/50 font-sans font-normal normal-case">(npm registry)</span>
+              </div>
               {sdks ? (
                 <div className="space-y-2">
                   {sdks.slice(0, 3).map((sdk) => (

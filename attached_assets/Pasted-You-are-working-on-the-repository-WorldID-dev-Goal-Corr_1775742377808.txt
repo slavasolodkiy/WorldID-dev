@@ -1,0 +1,104 @@
+You are working on the repository WorldID-dev.
+
+Goal
+Correct this repository based on the latest Codex review so it becomes a more truthful, evidence-linked, developer-facing prototype without pretending to be the source of truth for core product invariants.
+
+Critical policy you must follow
+- Do NOT create, modify, or require any GitHub Actions / CI workflow files.
+- Do NOT add anything under .github/workflows/.
+- If workflow files exist or are proposed, exclude them from your work.
+- Do NOT require GitHub Actions as an acceptance criterion.
+- Use local project scripts, structure, documentation, and code changes only.
+- Do not ask me to add CI/workflow files later.
+
+Strategic context
+- WorldID-Apple remains the temporary source of truth for:
+  - auth/session model
+  - verification lifecycle
+  - wallet / transaction integrity
+- WorldID-Android should converge upward toward Apple.
+- WorldID-website is marketing / funnel.
+- WorldID-dev should be the developer-facing docs/onboarding/integration surface.
+- WorldID-dev must NOT become accidental source of truth for backend invariants it does not own.
+
+Primary problems from review that must be addressed
+- The portal currently looks more mature than it really is.
+- Quickstart and capability claims are not reliably tied to real supported endpoints.
+- Synthetic status / optimistic platform claims reduce trust.
+- The portal OpenAPI describes the portal backend, not the canonical product APIs.
+- There is weak governance around what is implemented vs beta vs planned.
+- Content architecture and article routing are fragile.
+- The repo needs stronger role boundaries and source-of-truth language.
+- Do not solve this by adding CI workflows.
+
+Your task
+Inspect the repository and implement a corrective pass that makes the portal honest, structured, and explicitly subordinate to Apple’s real contract surface.
+
+Concrete objectives
+1. Add clear repository governance documents:
+   - README.md
+   - AGENTS.md
+2. State explicitly:
+   - what this repo owns
+   - what it does not own
+   - that Apple is temporary source of truth for core app invariants
+3. Fix onboarding truthfulness:
+   - remove or correct misleading quickstart examples
+   - remove or clearly label any unsupported endpoint examples
+   - do not imply external APIs are production-ready if they are not
+4. Add a developer capability matrix:
+   - Implemented
+   - Beta
+   - Planned
+   - Not exposed
+5. Make current-vs-planned status clear across docs and UI
+6. Improve docs architecture:
+   - more stable article routing / permalinks
+   - clearer section/article separation
+   - less drift-prone content structure
+7. Add a canonical-source page that points developers to the correct internal reference layer:
+   - Apple for auth / verification / transaction truth
+8. Improve support/contact integrity if possible:
+   - clearer support flow
+   - better handling of ticket identifiers or support states
+9. Keep the portal clearly separate from:
+   - marketing site
+   - wallet backend
+   - operator/orb product surface
+10. Remove or isolate mock/simulated platform claims wherever they can mislead developers
+
+What not to do
+- Do not create .github/workflows/*
+- Do not add GitHub Actions
+- Do not claim full operational telemetry if you do not have it
+- Do not invent external APIs
+- Do not redefine core invariants away from Apple
+- Do not turn this repo into the wallet/identity backend
+- Do not produce a fake polished layer with inaccurate readiness claims
+
+Files / modules / domains to inspect first
+- homepage / quickstart pages
+- status pages and status APIs
+- docs layout and article routing
+- changelog / SDK / contact / stats pages and routes
+- portal OpenAPI
+- DB/content storage approach
+- existing Replit notes and architecture files
+- any place where “operational”, “verify”, “transactions”, or platform readiness is claimed
+
+Acceptance criteria
+- The repo is more honest than before
+- The repo clearly declares its role and non-role
+- Unsupported or misleading API claims are removed or labeled
+- There is a visible capability matrix
+- Apple is explicitly referenced as temporary canonical source for app invariants
+- Docs structure is more stable and less misleading
+- No GitHub workflow files were added or modified
+- Final output includes:
+  - a concise summary of what you changed
+  - key files changed
+  - remaining known limitations
+  - GitHub repo link / commit link if available
+
+Final instruction
+Make this repo more trustworthy, not more theatrical.

@@ -3,7 +3,17 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: World Developer Portal API
+  description: |
+    World Developer Portal API — backend for the developer portal UI.
+
+    IMPORTANT: This spec describes the portal's own backend (documentation content, SDK registry, changelog, contact, representative stats).
+    It does NOT describe the canonical World ID product API.
+
+    For the canonical verification API, see:
+      https://developer.worldcoin.org/api/v1/verify/{app_id}
+
+    For canonical API documentation, see:
+      https://docs.world.org/world-id/reference/api
 servers:
   - url: /api
     description: Base API path

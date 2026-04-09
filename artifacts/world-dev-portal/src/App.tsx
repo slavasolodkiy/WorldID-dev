@@ -12,6 +12,8 @@ import SDKs from "@/pages/sdks/index";
 import Changelog from "@/pages/changelog/index";
 import Contact from "@/pages/contact/index";
 import Status from "@/pages/status/index";
+import Capabilities from "@/pages/capabilities/index";
+import Sources from "@/pages/sources/index";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ function Router() {
       <Route path="/changelog" component={Changelog} />
       <Route path="/contact" component={Contact} />
       <Route path="/status" component={Status} />
+      <Route path="/capabilities" component={Capabilities} />
+      <Route path="/sources" component={Sources} />
       <Route path="/docs" component={DocsIndex} />
       <Route path="/docs/:slug" component={DocArticle} />
       <Route component={NotFound} />

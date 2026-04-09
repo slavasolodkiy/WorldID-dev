@@ -68,6 +68,19 @@ export default function Status() {
 
   return (
     <div className="min-h-screen">
+      {/* Disclaimer */}
+      <div className="border-b border-border/40 bg-muted/30">
+        <div className="container mx-auto px-4 md:px-8 py-3">
+          <p className="text-xs text-muted-foreground font-mono">
+            <span className="text-amber-600 dark:text-amber-400 font-semibold">Note: </span>
+            This page reflects simulated status data for the developer portal's own services. It does not represent live telemetry from production World ID infrastructure. For official production status, see{" "}
+            <a href="https://status.worldcoin.org" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">
+              status.worldcoin.org
+            </a>.
+          </p>
+        </div>
+      </div>
+
       {/* Header */}
       <div className={`border-b border-border/40 ${hasIssues ? "bg-amber-500/5" : ""}`}>
         <div className="container mx-auto px-4 md:px-8 py-16">
