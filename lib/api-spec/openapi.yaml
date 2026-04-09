@@ -135,16 +135,16 @@ paths:
       operationId: getSdks
       tags: [sdk]
       summary: Get available SDKs
-      description: Returns all SDKs and tools available for developers
+      description: Returns all SDKs and tools available for developers, including install commands and quickstart code
       responses:
         "200":
-          description: List of SDKs
+          description: List of SDKs with full detail
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/SdkInfo"
+                  $ref: "#/components/schemas/SdkDetail"
 
   /sdks/{id}:
     get:
@@ -414,6 +414,7 @@ components:
         - version
         - status
         - icon
+        - weeklyDownloads
 
     SdkDetail:
       allOf:

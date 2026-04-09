@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Clock, ExternalLink, AlertTriangle, Info } from "lucide-react";
+import { ArrowLeft, Clock, ExternalLink, AlertTriangle, Info, BookMarked } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetDocSection } from "@workspace/api-client-react";
@@ -38,18 +38,19 @@ function renderContent(content: string) {
 
   while (i < lines.length) {
     const line = lines[i];
+    const trimmed = line.trimStart();
 
-    if (line.startsWith("# ")) {
-      elements.push(<h1 key={i} className="text-2xl font-bold tracking-tight mt-0 mb-4">{line.slice(2)}</h1>);
-    } else if (line.startsWith("## ")) {
-      elements.push(<h2 key={i} className="text-lg font-semibold tracking-tight mt-8 mb-3 border-b border-border/40 pb-2">{line.slice(3)}</h2>);
-    } else if (line.startsWith("### ")) {
-      elements.push(<h3 key={i} className="text-base font-semibold mt-6 mb-2">{line.slice(4)}</h3>);
-    } else if (line.startsWith("```")) {
-      const lang = line.slice(3);
+    if (trimmed.startsWith("# ")) {
+      elements.push(<h1 key={i} className="text-2xl font-bold tracking-tight mt-0 mb-4">{trimmed.slice(2)}</h1>);
+    } else if (trimmed.startsWith("## ")) {
+      elements.push(<h2 key={i} className="text-lg font-semibold tracking-tight mt-8 mb-3 border-b border-border/40 pb-2">{trimmed.slice(3)}</h2>);
+    } else if (trimmed.startsWith("### ")) {
+      elements.push(<h3 key={i} className="text-base font-semibold mt-6 mb-2">{trimmed.slice(4)}</h3>);
+    } else if (trimmed.startsWith("```")) {
+      const lang = trimmed.slice(3).trim();
       const codeLines: string[] = [];
       i++;
-      while (i < lines.length && !lines[i].startsWith("```")) {
+      while (i < lines.length && !lines[i].trimStart().startsWith("```")) {
         codeLines.push(lines[i]);
         i++;
       }
@@ -65,16 +66,16 @@ function renderContent(content: string) {
           </pre>
         </div>
       );
-    } else if (line.startsWith("> ")) {
+    } else if (trimmed.startsWith("> ")) {
       elements.push(
         <blockquote key={i} className="border-l-2 border-primary pl-4 my-4 text-sm text-muted-foreground italic">
-          {line.slice(2)}
+          {trimmed.slice(2)}
         </blockquote>
       );
-    } else if (line.startsWith("- ") || line.startsWith("* ")) {
+    } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
       const items: string[] = [];
-      while (i < lines.length && (lines[i].startsWith("- ") || lines[i].startsWith("* "))) {
-        items.push(lines[i].slice(2));
+      while (i < lines.length && (lines[i].trimStart().startsWith("- ") || lines[i].trimStart().startsWith("* "))) {
+        items.push(lines[i].trimStart().slice(2));
         i++;
       }
       elements.push(
@@ -83,10 +84,10 @@ function renderContent(content: string) {
         </ul>
       );
       continue;
-    } else if (/^\d+\./.test(line)) {
+    } else if (/^\s*\d+\./.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^\d+\./.test(lines[i])) {
-        items.push(lines[i].replace(/^\d+\.\s*/, ""));
+      while (i < lines.length && /^\s*\d+\./.test(lines[i])) {
+        items.push(lines[i].trimStart().replace(/^\d+\.\s*/, ""));
         i++;
       }
       elements.push(
@@ -95,9 +96,9 @@ function renderContent(content: string) {
         </ol>
       );
       continue;
-    } else if (line.startsWith("|")) {
+    } else if (trimmed.startsWith("|")) {
       const tableLines: string[] = [];
-      while (i < lines.length && lines[i].startsWith("|")) {
+      while (i < lines.length && lines[i].trimStart().startsWith("|")) {
         tableLines.push(lines[i]);
         i++;
       }
@@ -128,8 +129,8 @@ function renderContent(content: string) {
         );
       }
       continue;
-    } else if (line.trim() && !line.startsWith("---")) {
-      const withCode = line.replace(/`([^`]+)`/g, '<code class="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">$1</code>');
+    } else if (trimmed && !trimmed.startsWith("---")) {
+      const withCode = trimmed.replace(/`([^`]+)`/g, '<code class="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">$1</code>');
       elements.push(
         <p
           key={i}
@@ -227,32 +228,46 @@ export default function DocArticle({ params }: { params: { slug: string } }) {
           <h3 className="text-sm font-semibold mb-4 text-muted-foreground uppercase tracking-wide">Also in this section</h3>
           <div className="space-y-2">
             {section.articles.slice(1).map((a) => (
-              <a
+              <div
                 key={a.id}
-                href={`#${a.slug}`}
-                className="flex items-center justify-between p-3 rounded-lg border border-border/30 hover:border-border/60 hover:bg-card/50 transition-all"
+                className="flex items-center justify-between p-3 rounded-lg border border-border/30"
               >
-                <span className="text-sm">{a.title}</span>
+                <span className="text-sm text-muted-foreground">{a.title}</span>
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Clock className="w-3 h-3" />
                   {a.estimatedReadTime} min
                 </span>
-              </a>
+              </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="mt-12 pt-8 border-t border-border/40 flex items-center gap-4 text-sm">
-        <a
-          href="https://github.com/worldcoin"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ExternalLink className="w-3.5 h-3.5" />
-          Edit this page on GitHub
-        </a>
+      <div className="mt-12 pt-8 border-t border-border/40">
+        <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/20 border border-border/30 mb-6 text-xs">
+          <BookMarked className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
+          <div className="text-muted-foreground leading-relaxed">
+            This portal documents integration patterns and onboarding flows. For canonical source of truth on auth, verification lifecycle, and wallet invariants, see{" "}
+            <Link href="/sources" className="underline underline-offset-2 hover:text-foreground">
+              Sources of Truth
+            </Link>
+            {" "}or the{" "}
+            <a href="https://docs.world.org" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">
+              official World docs
+            </a>.
+          </div>
+        </div>
+        <div className="flex items-center gap-4 text-sm">
+          <a
+            href="https://github.com/worldcoin"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            View canonical sources on GitHub
+          </a>
+        </div>
       </div>
     </div>
   );

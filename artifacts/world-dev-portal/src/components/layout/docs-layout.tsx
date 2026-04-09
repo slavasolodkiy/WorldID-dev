@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useTheme } from "@/components/ui/theme-provider";
 import { Button } from "@/components/ui/button";
 import { SiGithub } from "react-icons/si";
-import { Moon, Sun, Menu, X, ChevronRight } from "lucide-react";
+import { Moon, Sun, Menu, X, ChevronRight, BarChart2, BookMarked } from "lucide-react";
 
 const docNav = [
   {
@@ -11,7 +11,7 @@ const docNav = [
     slug: "getting-started",
     items: [
       { title: "Quickstart", slug: "getting-started" },
-      { title: "Core Concepts", slug: "docs" },
+      { title: "Core Concepts", slug: "getting-started" },
       { title: "Developer App Setup", slug: "getting-started" },
     ],
     status: "stable",
@@ -49,23 +49,25 @@ const docNav = [
   {
     title: "API Reference",
     slug: "api",
+    note: "Portal context — canonical verify API at developer.worldcoin.org",
     items: [
       { title: "Authentication", slug: "api" },
       { title: "Verify Endpoint", slug: "api" },
-      { title: "Credentials", slug: "api" },
+      { title: "Error Codes", slug: "api" },
     ],
     status: "stable",
   },
   {
     title: "SDKs",
     slug: "sdks",
+    note: "IDKit stable · MiniKit, iOS, Android are Beta",
     items: [
       { title: "IDKit", slug: "sdks" },
       { title: "MiniKit JS", slug: "sdks" },
       { title: "iOS SDK", slug: "sdks" },
       { title: "Android SDK", slug: "sdks" },
     ],
-    status: "stable",
+    status: "mixed",
   },
 ];
 
@@ -74,6 +76,11 @@ const statusColors: Record<string, string> = {
   beta: "bg-blue-500/15 text-blue-600 dark:text-blue-400",
   draft: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
   planned: "bg-gray-500/15 text-gray-500",
+  mixed: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+};
+
+const statusLabels: Record<string, string> = {
+  mixed: "mixed",
 };
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
@@ -86,6 +93,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
     { name: "Docs", href: "/docs" },
     { name: "SDKs", href: "/sdks" },
     { name: "Changelog", href: "/changelog" },
+    { name: "Capabilities", href: "/capabilities" },
     { name: "Status", href: "/status" },
     { name: "Contact", href: "/contact" },
   ];
@@ -146,9 +154,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         <aside
           className={`${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 fixed md:sticky top-16 z-40 h-[calc(100dvh-4rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-border/40 bg-sidebar transition-transform duration-200 ease-in-out`}
+          } md:translate-x-0 fixed md:sticky top-16 z-40 h-[calc(100dvh-4rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-border/40 bg-sidebar transition-transform duration-200 ease-in-out flex flex-col`}
         >
-          <div className="p-4">
+          <div className="p-4 flex-1">
             <div className="mb-6">
               <Link href="/docs" className="text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors">
                 Documentation
@@ -157,7 +165,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <nav className="space-y-6">
               {docNav.map((section) => (
                 <div key={section.slug}>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-1.5">
                     <Link
                       href={`/docs/${section.slug}`}
                       className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
@@ -166,10 +174,13 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                     {section.status !== "stable" && (
                       <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${statusColors[section.status]}`}>
-                        {section.status}
+                        {statusLabels[section.status] ?? section.status}
                       </span>
                     )}
                   </div>
+                  {section.note && (
+                    <p className="text-[10px] text-muted-foreground/50 mb-2 leading-tight pl-0.5">{section.note}</p>
+                  )}
                   <ul className="space-y-0.5">
                     {section.items.map((item) => {
                       const href = `/docs/${item.slug}`;
@@ -195,6 +206,26 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                 </div>
               ))}
             </nav>
+          </div>
+
+          {/* Sidebar footer links */}
+          <div className="border-t border-border/40 p-4 space-y-1">
+            <Link
+              href="/capabilities"
+              onClick={() => setIsSidebarOpen(false)}
+              className="flex items-center gap-2 py-1.5 px-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+            >
+              <BarChart2 className="w-3 h-3" />
+              Capability Matrix
+            </Link>
+            <Link
+              href="/sources"
+              onClick={() => setIsSidebarOpen(false)}
+              className="flex items-center gap-2 py-1.5 px-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+            >
+              <BookMarked className="w-3 h-3" />
+              Sources of Truth
+            </Link>
           </div>
         </aside>
 

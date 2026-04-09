@@ -1,0 +1,51 @@
+You are the senior implementation agent for repository: slavasolodkiy/WorldID-dev (branch main).
+
+Objective
+Turn this repo into a credible developer-facing surface that is truthful about current capabilities and points to correct sources of truth.
+
+Product role of this repo
+Developer docs/onboarding/integration surface. It is NOT the canonical source of backend contract truth.
+
+Architectural direction
+Prioritize truthfulness and capability clarity over polish. Separate implemented vs planned clearly and reduce misleading quickstarts/claims.
+
+Inspect first
+- README and top-level docs navigation
+- onboarding/quickstart pages
+- API reference pages
+- SDK/integration guides
+- capability/status matrix pages (if any)
+- architecture/external links pages
+- any mock/demo endpoint docs
+- type/build config and scripts
+
+Concrete tasks
+1) Add explicit “Source of Truth” guidance:
+   - Apple is temporary source of truth for auth/verification/transaction invariants.
+   - This repo is documentation/onboarding, not contract authority.
+2) Build a capability matrix: Implemented / Partial / Planned, with evidence links.
+3) Rewrite/remove misleading operational claims and fake “production-ready” language.
+4) Ensure quickstarts only describe actually available flows; mark placeholders clearly.
+5) Improve docs IA: Getting Started, API Surface, SDKs, Auth/Verification model, Error model, Changelog.
+6) Add “current vs planned” labels to relevant pages/components.
+7) Fix local type/build issues and broken links in docs.
+
+Hard constraints (must follow)
+- Do NOT create or modify any CLI file (critical Replit/GitHub export bug).
+- Do NOT create or modify .github/workflows/*.
+- Do NOT invent backend capabilities not present in ecosystem repos.
+- Keep wording precise; no vague marketing claims in technical docs.
+
+Acceptance criteria
+- Developers can quickly see what is real today vs planned.
+- Source-of-truth hierarchy is explicit and accurate.
+- Misleading quickstarts are removed or corrected.
+- Docs build/type checks pass via existing local scripts.
+- Final report includes exactly what claims were corrected and where.
+
+Prioritized implementation plan
+1) Correct source-of-truth and capability framing.
+2) Fix quickstarts/API docs truthfulness.
+3) Restructure docs navigation for onboarding flow.
+4) Resolve type/build/link health issues.
+5) Deliver concise change log + unresolved items.
