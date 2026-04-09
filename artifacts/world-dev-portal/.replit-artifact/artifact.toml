@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "World Developer Portal"
+version = "1.0.0"
+id = "artifacts/world-dev-portal"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25779
+
+[services.development]
+run = "pnpm --filter @workspace/world-dev-portal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/world-dev-portal", "run", "build" ]
+publicDir = "artifacts/world-dev-portal/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25779"
+BASE_PATH = "/"

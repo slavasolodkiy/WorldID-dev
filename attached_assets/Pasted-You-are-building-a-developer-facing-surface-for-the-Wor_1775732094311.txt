@@ -1,0 +1,148 @@
+You are building a developer-facing surface for the WorldID ecosystem.
+
+Goal
+Create a dedicated developer portal / docs / integration surface that replicates only the necessary developer tools, information architecture, and workflows inspired by the public World ecosystem developer experience — not the entire product, and not the consumer app itself.
+
+Strategic context
+- Apple is currently the strongest internal repo and should remain the temporary source of truth for:
+  - auth/session model
+  - verification lifecycle
+  - wallet / transaction integrity
+- Android should converge upward toward Apple.
+- Website is primarily a marketing and acquisition layer, not the core identity/wallet backend.
+- We now need a separate developer-facing surface that helps external developers understand, evaluate, and integrate with the ecosystem.
+
+External inspiration to inspect first
+Use the official public World developer-facing references as inspiration and benchmark:
+- worldcoin/developer-docs
+- worldcoin/developer-portal
+- worldcoin/idkit
+- worldcoin/minikit-js
+- worldcoin/world-id-protocol
+Also inspect the current internal repos:
+- slavasolodkiy/WorldID-Apple
+- slavasolodkiy/WorldID-Android
+- slavasolodkiy/WorldID-website
+
+What this new repo should be
+A focused developer-facing product surface that answers:
+1. What can a developer build here?
+2. How do they get started?
+3. What APIs / SDKs / flows exist?
+4. How do auth, verification, wallet, mini-apps, grants, and integrations fit together?
+5. What is available today vs planned vs missing?
+6. Where does the developer portal end and where do product apps begin?
+
+Required product sections
+Design and implement a first usable version of:
+- Developer homepage
+- Getting started
+- Product/API overview
+- Auth & identity integration overview
+- Verification lifecycle overview
+- Wallet / transactions overview
+- Mini-apps / apps / partner integrations overview
+- API reference surface or API reference placeholders
+- SDKs / code examples section
+- Changelog / status / roadmap section
+- Contact / support / partner inquiry / Orb provider inquiry routing
+- Clear separation between:
+  - developer docs
+  - marketing content
+  - app download funnels
+  - partner/provider funnels
+
+Critical open question to resolve in this repo
+Determine and implement a recommendation for where the external developer-facing API/docs should live:
+- inside this repo directly
+- as a dedicated docs site linked from the website
+- as a separate developer portal plus separate docs site
+Produce the best pragmatic structure, and explain the reasoning in a final summary.
+
+Concrete tasks
+1. Inspect the public World developer-facing references and extract only the patterns that are actually useful:
+   - docs information architecture
+   - developer portal concepts
+   - API onboarding flow
+   - SDK navigation patterns
+2. Inspect our internal Apple / Android / Website repos and identify:
+   - what APIs and flows are real today
+   - what is inconsistent
+   - what should be documented now
+   - what should be marked as not yet canonical
+3. Create a clean developer-facing repo structure.
+4. Build the initial developer-facing UX and content architecture.
+5. Add a clearly labeled “current state” vs “planned state” distinction wherever our backend/contracts are still inconsistent.
+6. Do not invent fake APIs. If an API surface is unclear, represent it honestly as draft / planned / pending standardization.
+7. Keep Apple as the temporary reference model wherever internal inconsistency exists.
+8. Treat Website as funnel/entry layer, not as the canonical place for app backend logic.
+9. Make the result practical for real external developers, not just visually impressive.
+
+Constraints
+- Do not clone the entire public World site.
+- Do not build a consumer app.
+- Do not pretend the current Apple/Android/Website repos are already perfectly unified.
+- Do not hide uncertainty.
+- Do not overwrite core product assumptions from Apple unless there is strong evidence.
+- Prefer explicit documentation of gaps over fake completeness.
+
+Architecture direction
+- This should become a dedicated developer-facing surface adjacent to the marketing site, not a replacement for it.
+- The repo should be able to stand on its own as:
+  - docs entry point
+  - integration overview
+  - API/SDK orientation layer
+  - future home for developer onboarding
+- Keep the structure modular so it could later split into:
+  - docs
+  - developer portal
+  - API reference
+if needed.
+
+Files / domains to inspect first
+- Apple:
+  - openapi specs
+  - auth routes
+  - verification routes
+  - transaction routes
+  - schema / migrations
+- Android:
+  - identity/auth middleware
+  - verification flow
+  - grants / mini-apps
+  - openapi and schema
+- Website:
+  - openapi
+  - stats/ecosystem/orb/team/newsletter APIs
+  - content/funnel structure
+- Public references:
+  - developer docs structure
+  - developer portal concepts
+  - SDK repositories
+
+Deliverables
+1. Implement the developer-facing repo.
+2. Add a README explaining:
+   - repo purpose
+   - product role
+   - what is real today
+   - what is provisional
+3. Add a “source of truth and assumptions” note:
+   - Apple as temporary core
+   - Android converging toward Apple
+   - Website as marketing/funnel
+4. Add a final architecture note recommending:
+   - where docs should live
+   - where API reference should live
+   - where portal functionality should live
+5. If GitHub is connected, push the finished result and give me the GitHub repository link.
+6. If GitHub is not connected, tell me the exact next click/path needed to publish/push.
+
+Acceptance criteria
+- The output is clearly developer-facing, not consumer-facing.
+- The information architecture is coherent.
+- It does not confuse marketing, app backend, and developer portal responsibilities.
+- It documents real current capabilities and real gaps.
+- It gives a credible answer to where APIs/docs/onboarding should live.
+- It is grounded in the actual internal repos and in public World developer patterns.
+- It ends with a concise implementation summary and the GitHub link.
